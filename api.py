@@ -19,6 +19,11 @@ students_data = [{"name":"yGo9VR","marks":24},{"name":"tH228il","marks":84},{"na
 async def get_marks(name: list[str] = Query(None)):
     # Filter students based on the 'name' query parameter
     if name:
-        result = [student["marks"] for student in students_data if student["name"] in name]
+        marks_dict={student["name"]:student["marks"] for student in students_data}
+        result = [marks_dict[student_name] for student_name in name if student_name in marks_dict]
         return {"marks": result}
     return {"marks": []}
+
+@app.get("/")
+async def root():
+    return {"message" : "API running!"}
